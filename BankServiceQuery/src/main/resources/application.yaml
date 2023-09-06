@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    name: ProductServiceApi
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST:localhost}:3306/bankdetails?jdbcCompliantTruncation=false
+    username: root
+    password: Qwerty123#
+  application:
+    name: BANK-QUERY
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        '[format_sql]': true
+    show-sql: true
+server:
+  port: 0
+     
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${instanceId:${random.value}}
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
+      
+      
+axon:
+  eventhandling:
+    processors:
+      create-account-group:
+        mode: subscribing

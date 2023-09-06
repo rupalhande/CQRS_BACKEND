@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: API_GATEWAY
+  cloud:
+    gateway:
+      routes:
+      - id: PRODUCT-SERVICE
+        uri: lb://PRODUCT-SERVICE
+        predicates:
+        - Path=/api/products/**
+
+      - id: BANK-COMMAND
+        uri: lb://BANK-COMMAND
+        predicates:
+        - Method=POST
+        - Path=/api/v1/**
+        
+      - id: BANK-QUERY
+        uri: lb://BANK-QUERY
+        predicates:
+        - Method=GET
+        - Path=/api/v1/**
+        
+    discovery:
+      enabled: true
+      
+server:
+  port: 8080
+  
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
+      
+  
